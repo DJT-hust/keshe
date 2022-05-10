@@ -1,0 +1,27 @@
+clear
+clc
+close all
+
+load netdata_AsianPart_8nodes.mat
+load ge_8node_lowM.mat
+
+res=[1	0	0	0	0	1	0	0	0;
+1	0	1	0	0	1	0	0	0;
+1	0	1	0	0	1	0	0	1;
+1	0	1	0	0	1	1	0	1;
+1	0	1	0	1	1	0	0	0;
+1	0	1	0	1	1	0	0	1;
+1	0	1	0	1	1	1	0	1
+];
+dist_list=[];
+for i=1:size(res,1)
+    i
+    tic
+    if mod(i,2)==1
+        dist=compute_exp_distance(res(i,:),31,net_length,[2 1],[4 7],[4 4],seismic_situation,1/NE*ones(50000,1),linkData);
+    else
+        dist=compute_exp_distance(res(i,:),120,net_length,[2 1],[4 7],[4 4],seismic_situation,1/NE*ones(50000,1),linkData);
+    end
+    dist_list=[dist_list {dist}];
+    toc
+end
